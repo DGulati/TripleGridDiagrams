@@ -19,6 +19,24 @@ display (int a[], int n)
   cout << endl;
 }
 
+void display_grid(int x[], int o[], int n){
+    //cout<<"\n";
+    for(int i = n-1; i >-1 ; i--){
+        cout<<"|";
+        for(int j = 0; j<n; j++){
+            if(x[j]==i){
+                cout<<"X";
+            }else if(o[j]==i){
+                cout<<"O";
+            }else{
+                cout<<".";
+            }
+        }
+        cout<<"|"<<endl;
+    }
+    //cout<<"\n";
+}
+
 void
 display_check (std::string input, bool check)
 {
@@ -160,13 +178,13 @@ main ()
       for (long int j = 0; j < factorial_n; j++)
 	{
 
-	  cout << "Permuation of RedBlue X:";
-	  display (redblue_x, n);
-	  cout << "Permuation of RedBlue O:";
-	  display (redblue_o, n);
+// 	  cout << "Permuation of RedBlue X:";
+// 	  display (redblue_x, n);
+// 	  cout << "Permuation of RedBlue O:";
+// 	  display (redblue_o, n);
 
       bool redblue_gridcheck = grid_check(redblue_x,redblue_o,n);
-      display_check("RedBlue Grid",redblue_gridcheck);
+    //   display_check("RedBlue Grid",redblue_gridcheck);
       
       if(!redblue_gridcheck){
           next_permutation (redblue_o, redblue_o + n);
@@ -212,7 +230,7 @@ main ()
 	  //cout << "Now Checking if this is valid" << "\n";
 
 	  bool redgreen_gridcheck = grid_check(redgreen_x,redgreen_o,n);
-      display_check("RedGreen Grid",redgreen_gridcheck);
+    //   display_check("RedGreen Grid",redgreen_gridcheck);
 
       if(!redgreen_gridcheck){
           next_permutation (redblue_o, redblue_o + n);
@@ -251,10 +269,10 @@ main ()
 	  //cout<<"Now Checking if this is valid"<<"\n";
 
 	  bool greenblue_gridcheck = grid_check(greenblue_x,greenblue_o,n);
-      display_check("GreenBlue Grid",greenblue_gridcheck);
+    //   display_check("GreenBlue Grid",greenblue_gridcheck);
       
       bool triplegridcheck = redgreen_gridcheck && redblue_gridcheck && greenblue_gridcheck;
-      display_check("Triple Grid",triplegridcheck);
+     // display_check("Triple Grid",triplegridcheck);
       
       if(triplegridcheck){
           cout << "\n";
@@ -266,12 +284,15 @@ main ()
 	    cout << "RedBlue O:";
 	    display (redblue_o, n);
           
+        display_grid(redblue_x,redblue_o,n);  
+          
         cout << "RedGreen Xs:";
 	    display (redgreen_x, n);
 
 	    cout << "RedGreen Os:";
 	    display (redgreen_o, n);
           
+        display_grid(redblue_x,redblue_o,n);    
           
         cout << "GreenBlue Xs:";
 	    display (greenblue_x, n);
@@ -279,8 +300,9 @@ main ()
 
 	    cout << "GreenBlue Os:";
 	    display (greenblue_o, n);
-    cout << endl; 
-          
+	    
+	    display_grid(redblue_x,redblue_o,n);  
+	    
       }
       
       
