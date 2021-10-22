@@ -1,0 +1,19 @@
+
+Count:1
+RedBlue X:0 1 2 
+RedBlue O:1 2 0 
+|.OX|
+|OX.|
+|X.O|
+RedGreen Xs:0 2 1 
+RedGreen Os:1 0 2 
+|.XO|
+|O.X|
+|XO.|
+GreenBlue Xs:0 2 1 
+GreenBlue Os:2 1 0 
+|OX.|
+|.OX|
+|X.O|
+
+1
