@@ -1,11 +1,3 @@
-/******************************************************************************
-
-                              Online C++ Compiler.
-               Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 #include <iostream>
 #include <bits/stdc++.h>
 
@@ -142,15 +134,35 @@ long int factorial(int n){
 
 
 int
-main ()
+main (int argc, char* argv[])
 {
-  int n;
+  //int n;
 
-  cout << "Please enter grid size :" << "\n";
-  cin >> n;
+  //cout << "Please enter grid size :" << "\n";
+  //cin >> n;
 
 
-  cout << "The grid size (n) entered is:" << n << "\n";
+  //cout << "The grid size (n) entered is:" << n << "\n";
+
+  if (argc <= 1)
+  {
+    // On some operating systems, argv[0] can end up as an empty string instead of the program's name.
+    // We'll conditionalize our response on whether argv[0] is empty or not.
+    if (argv[0])
+      std::cout << "Usage: " << argv[0] << " <number>" << '\n';
+    else
+      std::cout << "Usage: <program name> <number>" << '\n';
+
+    return 1;
+  }
+
+  std::stringstream convert{ argv[1] }; // set up a stringstream variable named convert, initialized with the input from argv[1]
+
+  int n{};
+  if (!(convert >> n)) // do the conversion
+    n = 1; // if conversion fails, set myint to a default value
+
+  //std::cout << "Got integer: " << n << '\n';
 
   int redblue_x[n];
   int redblue_o[n];
@@ -169,13 +181,20 @@ main ()
 
 
   long int factorial_n = factorial(n);
+  long int iter_Os = (factorial_n/2)+1;
+  //Symmetry across the diagnal
+
+  long int factorial_n_minus_two = factorial(n-2);
+  long int iter_Xs = factorial_n_minus_two*(n-2);
+  //n-1 factorial because of symmetry
+  //Because the last n-2 factorial will not be valid triple grid diagrams
   
   int count = 0;
 
-  for (long int i = 0; i < factorial_n; i++)
+  for (long int i = 0; i < iter_Xs; i++)
     {
 
-      for (long int j = 0; j < factorial_n; j++)
+      for (long int j = 0; j < iter_Os; j++)
 	{
 
 // 	  cout << "Permuation of RedBlue X:";
@@ -239,29 +258,38 @@ main ()
       
 	  int greenblue_x[n] = { 0 };
 
-	  for (int i = 0; i < n; i++)
-	    {
-	      for (int j = 0; j < n; j++)
-		{
-		  if (redgreen_x[j] == i)
-		    {
-		      greenblue_x[i] = j;
-		    }
-		}
-	    }
+  for (int i = 0; i < n; i++)
+    {
+      greenblue_x[i] = -1;
+    }
 
-	  int greenblue_o[n] = { 0 };
-
-	  for (int i = 0; i < n; i++)
+  for (int i = 0; i < n; i++)
+    {
+      for (int j = 0; j < n; j++)
+	{
+	  if (redgreen_x[j] == i)
 	    {
-	      for (int j = 0; j < n; j++)
-		{
-		  if (redgreen_o[j] == i)
-		    {
-		      greenblue_o[i] = j;
-		    }
-		}
+	      greenblue_x[i] = (i + n - j) % n;
 	    }
+	}
+    }
+
+  int greenblue_o[n] = { 0 };
+  for (int i = 0; i < n; i++)
+    {
+      greenblue_o[i] = -1;
+    }
+
+  for (int i = 0; i < n; i++)
+    {
+      for (int j = 0; j < n; j++)
+	{
+	  if (redgreen_o[j] == i)
+	    {
+	      greenblue_o[i] = (i + n - j) % n;
+	    }
+	}
+    }
 
 
 	  
@@ -292,7 +320,7 @@ main ()
 	    cout << "RedGreen Os:";
 	    display (redgreen_o, n);
           
-        display_grid(redblue_x,redblue_o,n);    
+        display_grid(redgreen_x,redgreen_o,n);    
           
         cout << "GreenBlue Xs:";
 	    display (greenblue_x, n);
@@ -301,7 +329,7 @@ main ()
 	    cout << "GreenBlue Os:";
 	    display (greenblue_o, n);
 	    
-	    display_grid(redblue_x,redblue_o,n);  
+	    display_grid(greenblue_x,greenblue_o,n);  
 	    
       }
       
