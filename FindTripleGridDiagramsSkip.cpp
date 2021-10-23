@@ -163,205 +163,206 @@ main (int argc, char* argv[])
     n = 1; // if conversion fails, set myint to a default value
 
   //std::cout << "Got integer: " << n << '\n';
-  std::stringstream convert1{ argv[2] }; // set up a stringstream variable named convert, initialized with the input from argv[1]
+  long int totalcount = 0;
 
-  int skip{};
-  if (!(convert1 >> skip)) // do the conversion
-    skip = 1;
+  for(int k = 1; k <(n+1)/2; k++){
 
-  int redblue_x[n];
-  int redblue_o[n];
 
-  for(int iskip = 0; iskip<skip; iskip++){
-  	redblue_x[iskip] = -1;
-  	redblue_o[iskip] = -1;
-  }
+    long int fact_n_1 = factorial(n-1);
+    long int fact_k_1= factorial(k-1);
+    long int iter = fact_n_1/fact_k_1;
 
-  for (int ix = skip; ix < n; ix++)
-    {
-      redblue_x[ix] = ix - skip;
-      redblue_o[ix] = ix - skip;
+    int redblue_x[n];
+    int redblue_o[n];
+
+    redblue_x[0] = -1;
+    redblue_o[0] = -1;
+
+    for (int i = 0; i < k; i++)
+      {
+        redblue_x[i] = -1;
+        redblue_o[i] = -1;
+      }
+    for(int j = k; j<n; j++){
+       redblue_x[j] = j-k;
+       redblue_o[j] = j-k;
     }
 
 
-  
+   
 
-
-  //long int factorial_n_ = factorial(n);
-  //long int iter_Os = (factorial_n/2)+1;
-
-
-  long int factorial_n_minus_skip = factorial(n-skip);
-  long int iter_Xs = factorial_n_minus_skip;
-  long int iter_Os = factorial_n_minus_skip;
-  
-  
-  // Need to modify code so that skip and permutations are more efficiently permuted. 
-
-
-  int count = 0;
-
-  for (long int i = 0; i < iter_Xs; i++)
-    {
-
-      for (long int j = 0; j < iter_Os; j++)
-	{
-
-// 	  cout << "Permuation of RedBlue X:";
-// 	  display (redblue_x, n);
-// 	  cout << "Permuation of RedBlue O:";
-// 	  display (redblue_o, n);
-// 	  cout << "\n";
-
-      bool redblue_gridcheck = grid_check(redblue_x,redblue_o,n);
-    //   display_check("RedBlue Grid",redblue_gridcheck);
       
-      if(!redblue_gridcheck){
-          next_permutation (redblue_o, redblue_o + n);
-          continue;
-      }
-        
     
-	  int redgreen_x[n];
-	  int redgreen_o[n];
-
-	  for (int ix = 0; ix < n; ix++)
-	    {
-	      if (redblue_x[ix] != -1)
-		{
-		  int a = redblue_x[ix] + ix;
-		  int b = (n + (a % n)) % n;
-		  redgreen_x[ix] = b;
-		}
-	      else
-		{
-		  redgreen_x[ix] = -1;
-		}
-	    }
-
-	  for (int io = 0; io < n; io++)
-	    {
-	      if (redblue_o[io] != -1)
-		{
-		  int a = redblue_o[io] + io;
-		  int b = (n + (a % n)) % n;
-		  redgreen_o[io] = b;
-		}
-	      else
-		{
-		  redgreen_o[io] = -1;
-		}
-	    }
+    // Need to modify code so that skip and permutations are more efficiently permuted. 
 
 
-	  
+    int count = 0;
 
+    for (long int i = 0; i < iter; i++)
+      {
 
-	  //cout << "Now Checking if this is valid" << "\n";
+        for (long int j = 0; j < iter; j++)
+  	{
 
-	  bool redgreen_gridcheck = grid_check(redgreen_x,redgreen_o,n);
-    //   display_check("RedGreen Grid",redgreen_gridcheck);
+  // 	  cout << "Permuation of RedBlue X:";
+  // 	  display (redblue_x, n);
+  // 	  cout << "Permuation of RedBlue O:";
+  // 	  display (redblue_o, n);
+  // 	  cout << "\n";
 
-      if(!redgreen_gridcheck){
-          next_permutation (redblue_o, redblue_o + n);
-          continue;
-      }
-      
-	  int greenblue_x[n] = { 0 };
-
-  for (int i = 0; i < n; i++)
-    {
-      greenblue_x[i] = -1;
-    }
-
-  for (int i = 0; i < n; i++)
-    {
-      for (int j = 0; j < n; j++)
-	{
-	  if (redgreen_x[j] == i)
-	    {
-	      greenblue_x[i] = (i + n - j) % n;
-	    }
-	}
-    }
-
-  int greenblue_o[n] = { 0 };
-  for (int i = 0; i < n; i++)
-    {
-      greenblue_o[i] = -1;
-    }
-
-  for (int i = 0; i < n; i++)
-    {
-      for (int j = 0; j < n; j++)
-	{
-	  if (redgreen_o[j] == i)
-	    {
-	      greenblue_o[i] = (i + n - j) % n;
-	    }
-	}
-    }
-
-
-	  
-
-	  //cout<<"Now Checking if this is valid"<<"\n";
-
-	  bool greenblue_gridcheck = grid_check(greenblue_x,greenblue_o,n);
-    //   display_check("GreenBlue Grid",greenblue_gridcheck);
-      
-      bool triplegridcheck = redgreen_gridcheck && redblue_gridcheck && greenblue_gridcheck;
-     // display_check("Triple Grid",triplegridcheck);
-      
-      if(triplegridcheck){
-          cout << "\n";
-          count = count + 1;
-          cout<<"Count:"<<count<<endl;
-          
-        cout << "RedBlue X:";
-	    display (redblue_x, n);
-	    cout << "RedBlue O:";
-	    display (redblue_o, n);
-          
-        display_grid(redblue_x,redblue_o,n);  
-          
-        cout << "RedGreen Xs:";
-	    display (redgreen_x, n);
-
-	    cout << "RedGreen Os:";
-	    display (redgreen_o, n);
-          
-        display_grid(redgreen_x,redgreen_o,n);    
-          
-        cout << "GreenBlue Xs:";
-	    display (greenblue_x, n);
-
-
-	    cout << "GreenBlue Os:";
-	    display (greenblue_o, n);
-	    
-	    display_grid(greenblue_x,greenblue_o,n);  
-	    
-      }
-      
-      
-      
+        bool redblue_gridcheck = grid_check(redblue_x,redblue_o,n);
+      //   display_check("RedBlue Grid",redblue_gridcheck);
         
-	  next_permutation (redblue_o, redblue_o + n);
-	}
+        if(!redblue_gridcheck){
+            next_permutation (redblue_o, redblue_o + n);
+            continue;
+        }
+          
+      
+  	  int redgreen_x[n];
+  	  int redgreen_o[n];
 
-	for(int iskip = 0; iskip<skip; iskip++){
-  		redblue_o[iskip] = -1;
-  }
+  	  for (int ix = 0; ix < n; ix++)
+  	    {
+  	      if (redblue_x[ix] != -1)
+  		{
+  		  int a = redblue_x[ix] + ix;
+  		  int b = (n + (a % n)) % n;
+  		  redgreen_x[ix] = b;
+  		}
+  	      else
+  		{
+  		  redgreen_x[ix] = -1;
+  		}
+  	    }
 
-  for (int ix = skip; ix < n; ix++)
-    {
-      redblue_o[ix] = ix - skip;
+  	  for (int io = 0; io < n; io++)
+  	    {
+  	      if (redblue_o[io] != -1)
+  		{
+  		  int a = redblue_o[io] + io;
+  		  int b = (n + (a % n)) % n;
+  		  redgreen_o[io] = b;
+  		}
+  	      else
+  		{
+  		  redgreen_o[io] = -1;
+  		}
+  	    }
+
+
+  	  
+
+
+  	  //cout << "Now Checking if this is valid" << "\n";
+
+  	  bool redgreen_gridcheck = grid_check(redgreen_x,redgreen_o,n);
+      //   display_check("RedGreen Grid",redgreen_gridcheck);
+
+        if(!redgreen_gridcheck){
+            next_permutation (redblue_o, redblue_o + n);
+            continue;
+        }
+        
+  	  int greenblue_x[n] = { 0 };
+
+    for (int i = 0; i < n; i++)
+      {
+        greenblue_x[i] = -1;
+      }
+
+    for (int i = 0; i < n; i++)
+      {
+        for (int j = 0; j < n; j++)
+  	{
+  	  if (redgreen_x[j] == i)
+  	    {
+  	      greenblue_x[i] = (i + n - j) % n;
+  	    }
+  	}
+      }
+
+    int greenblue_o[n] = { 0 };
+    for (int i = 0; i < n; i++)
+      {
+        greenblue_o[i] = -1;
+      }
+
+    for (int i = 0; i < n; i++)
+      {
+        for (int j = 0; j < n; j++)
+  	{
+  	  if (redgreen_o[j] == i)
+  	    {
+  	      greenblue_o[i] = (i + n - j) % n;
+  	    }
+  	}
+      }
+
+
+  	  
+
+  	  //cout<<"Now Checking if this is valid"<<"\n";
+
+  	  bool greenblue_gridcheck = grid_check(greenblue_x,greenblue_o,n);
+      //   display_check("GreenBlue Grid",greenblue_gridcheck);
+        
+        bool triplegridcheck = redgreen_gridcheck && redblue_gridcheck && greenblue_gridcheck;
+       // display_check("Triple Grid",triplegridcheck);
+        
+        if(triplegridcheck){
+            cout << "\n";
+            count = count + 1;
+            cout<<"Count:"<<count<<endl;
+            
+          cout << "RedBlue X:";
+  	    display (redblue_x, n);
+  	    cout << "RedBlue O:";
+  	    display (redblue_o, n);
+            
+          display_grid(redblue_x,redblue_o,n);  
+            
+          cout << "RedGreen Xs:";
+  	    display (redgreen_x, n);
+
+  	    cout << "RedGreen Os:";
+  	    display (redgreen_o, n);
+            
+          display_grid(redgreen_x,redgreen_o,n);    
+            
+          cout << "GreenBlue Xs:";
+  	    display (greenblue_x, n);
+
+
+  	    cout << "GreenBlue Os:";
+  	    display (greenblue_o, n);
+  	    
+  	    display_grid(greenblue_x,greenblue_o,n);  
+  	    
+        }
+        
+        
+        
+          
+  	  next_permutation (redblue_o, redblue_o + n);
+  	}
+
+  	for(int iskip = 0; iskip<k; iskip++){
+    		redblue_o[iskip] = -1;
     }
-      next_permutation (redblue_x, redblue_x + n);
-    }
 
-    cout<<"\n"<<count<<"\n";
+    for (int ix = k; ix < n; ix++)
+      {
+        redblue_o[ix] = ix - k;
+      }
+        next_permutation (redblue_x, redblue_x + n);
+      }
 
+      cout<<"\n"<<count<<"\n";
+      totalcount = totalcount + count;
+
+    }   
+
+    cout<<"\n"<<totalcount<<"\n"; 
   return 0;
 }
